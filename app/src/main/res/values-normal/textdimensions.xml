@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="keysize">30sp</dimen>
+    <dimen name="textoTitulo">23.3sp</dimen>
+    <dimen name="textIteraciones">20sp</dimen>
+    <dimen name="textBoxSize">50sp</dimen>
+    <dimen name="LayoutWidth">40dp</dimen>
+    <dimen name="textoBotonsitos">15sp</dimen>
+    <dimen name="btnSize">80dp</dimen>
+</resources>

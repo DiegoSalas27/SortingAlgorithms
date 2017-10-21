@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_menu"
+    android:padding="16dp"
+    tools:context="com.example.android.sortingalgorithms.GuideMenu">
+
+    <ScrollView
+        android:id="@+id/svText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Welcome to Sort it!"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp"
+                android:textColor="@android:color/holo_blue_dark"
+                android:textSize="@dimen/textoTitulo"/>
+
+            <TextView
+                android:id="@+id/tvIntro"
+                android:layout_below="@id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/textIteraciones"
+                android:layout_marginBottom="16dp"
+                android:text="This game will test your ability to sort numbers applying computing sorting algorithms."/>
+
+            <TextView
+                android:id="@+id/tvIntro2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/textIteraciones"
+                android:layout_below="@id/tvIntro"
+                android:layout_marginBottom="16dp"
+                android:textColor="@android:color/holo_blue_dark"
+                android:text="How it works?"/>
+
+            <TextView
+                android:id="@+id/tvIntro3"
+                android:layout_below="@id/tvIntro2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/textIteraciones"
+                android:layout_marginBottom="16dp"
+                android:text="* You will be given 5 numbers within boxes that you will have to drag and drop to their corresponding positions within the grey boxes that appear below them."/>
+            <TextView
+                android:id="@+id/tvIntro4"
+                android:layout_below="@id/tvIntro3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/textIteraciones"
+                android:layout_marginBottom="16dp"
+                android:text="* The algorithms that you will follow will sort these numbers in ascending order. You will have a pass through the list given and sort it for each iteration, having as a cue the name of the sorting algorithm on the top left corner of the screen."/>
+            <TextView
+                android:id="@+id/tvIntro5"
+                android:layout_below="@id/tvIntro4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/textIteraciones"
+                android:layout_marginBottom="16dp"
+                android:text="* You cannot mess your arrangement, if you do so you won’t be able to rearrange it."/>
+            <TextView
+                android:id="@+id/tvIntro6"
+                android:layout_below="@id/tvIntro5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/textIteraciones"
+                android:layout_marginBottom="16dp"
+                android:text="* You can take a look at the algorithm pressing the “see algorithm” button on the top right corner of the screen."/>
+            <TextView
+                android:layout_below="@id/tvIntro6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/textIteraciones"
+                android:layout_marginTop="45dp"
+                android:textColor="@android:color/holo_blue_dark"
+                android:text="Have fun!"/>
+
+            <Button
+                android:id="@+id/btnOk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_button_pressed2"
+                android:textSize="@dimen/textIteraciones"
+                android:padding="10dp"
+                android:text="Got it!"
+                android:layout_below="@id/tvIntro6"
+                android:onClick="backtoMain"
+                android:textStyle="bold"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"
+                android:textColor="@android:color/white"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

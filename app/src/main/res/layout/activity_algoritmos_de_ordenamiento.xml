@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.android.sortingalgorithms.AlgoritmosDeOrdenamiento">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_menu"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_button_pressed2"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="33dp"
+        android:layout_alignParentRight="true"
+        android:textSize="@dimen/textIteraciones"
+        android:onClick="back"
+        android:text="go Back" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="70dp">
+
+        <TextView
+            android:id="@+id/tvAlgorithmName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="@dimen/textIteraciones"
+            android:textColor="@android:color/white"/>
+
+    </ScrollView>
+
+</RelativeLayout>
