@@ -1,6 +1,4 @@
-package com.example.android.sortingalgorithms;
-
-import java.util.ArrayList;
+package com.example.android.sortingalgorithms.middleware;
 
 /**
  * Created by DOMINIC on 9/1/2017.

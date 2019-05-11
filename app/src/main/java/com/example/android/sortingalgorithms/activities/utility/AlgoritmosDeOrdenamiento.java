@@ -1,4 +1,4 @@
-package com.example.android.sortingalgorithms;
+package com.example.android.sortingalgorithms.activities.utility;
 
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
@@ -6,6 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
+import com.example.android.sortingalgorithms.R;
+import com.example.android.sortingalgorithms.activities.MainActivity;
+import com.example.android.sortingalgorithms.middleware.Datos;
 
 import java.util.ArrayList;
 
@@ -255,7 +259,7 @@ public class AlgoritmosDeOrdenamiento extends AppCompatActivity {
 
     }
 
-    public boolean ordBurbujaModificado (int [] list, int [] choice)
+    public boolean ordBurbujaModificado (int [] list, int [] choice) //sirve para hacer las comparaciones entre el usuario y el sistema
     {
         int r = MainActivity.ite1;
         correcto = false;
@@ -287,7 +291,7 @@ public class AlgoritmosDeOrdenamiento extends AppCompatActivity {
 
         return correcto;
     }
-    public int bubbleSortImproved(int [] list){
+    public int bubbleSortImproved(int [] list){ //devuelve el numero de iteraciones para mostrar en main activity
 
         boolean ordenado;
         for (int i=0; i < 5-1; i++)

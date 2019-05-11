@@ -1,0 +1,95 @@
+package com.example.android.sortingalgorithms.activities.auth;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.OkHttpResponseListener;
+import com.example.android.sortingalgorithms.R;
+import com.example.android.sortingalgorithms.models.User;
+import com.example.android.sortingalgorithms.network.UsersApi;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import okhttp3.Response;
+
+public class RegisterActivity extends AppCompatActivity {
+
+    EditText txtUserName;
+    EditText txtEmail;
+    EditText txtPassword;
+    Button registerBtn;
+    ProgressBar progressBar;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_register);
+        //layout views
+        txtUserName = (EditText) findViewById(R.id.txtUserName);
+        txtEmail = (EditText) findViewById(R.id.txtEmail);
+        txtPassword = (EditText) findViewById(R.id.txtPassword);
+        registerBtn = (Button) findViewById(R.id.registerBtn);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+    }
+
+    public void ventanaLogin(View view){
+        startActivity(new Intent(this, LoginActivity.class));
+    }
+
+    public void register(View view){
+        createNewAccount();
+    }
+
+    public void createNewAccount(){
+        String username = txtUserName.getText().toString();
+        String email = txtEmail.getText().toString();
+        String password = txtPassword.getText().toString();
+
+        if(!TextUtils.isEmpty(username) && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)){
+            progressBar.setVisibility(View.VISIBLE);
+            registerBtn.setVisibility(View.GONE);
+
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("email", email);
+                jsonObject.put("password", password);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Log.i("JASON", jsonObject.toString());
+
+            AndroidNetworking.post(UsersApi.usersUrl()+"signup")
+                    .addJSONObjectBody(jsonObject)
+                    .build()
+                    .getAsOkHttpResponse(new OkHttpResponseListener() {
+                        @Override
+                        public void onResponse(Response response) {
+                            if (response.isSuccessful()) {
+                                Log.i("RESPONSE", response.message());
+                                action();
+                            }
+                        }
+
+                        @Override
+                        public void onError(ANError anError) {
+                            Log.d("ERROR", anError.getMessage());
+                        }
+                    });
+        }
+    }
+
+    public void action(){
+        startActivity(new Intent(this, LoginActivity.class));
+    }
+
+}

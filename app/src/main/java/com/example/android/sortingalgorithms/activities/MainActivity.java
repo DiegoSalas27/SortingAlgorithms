@@ -1,11 +1,11 @@
-package com.example.android.sortingalgorithms;
+package com.example.android.sortingalgorithms.activities;
 
 import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Point;
 import android.media.MediaPlayer;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.DragEvent;
 import android.view.MotionEvent;
@@ -16,6 +16,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.example.android.sortingalgorithms.activities.utility.AlgoritmosDeOrdenamiento;
+import com.example.android.sortingalgorithms.middleware.Datos;
+import com.example.android.sortingalgorithms.R;
+
 import java.util.ArrayList;
 import java.util.Random;
 

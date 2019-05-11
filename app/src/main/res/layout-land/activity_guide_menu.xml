@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_menu"
     android:padding="16dp"
-    tools:context="com.example.android.sortingalgorithms.GuideMenu">
+    tools:context="com.example.android.sortingalgorithms.activities.GuideMenu">
 
     <ScrollView
         android:id="@+id/svText"
