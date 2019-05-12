@@ -4,4 +4,5 @@
     <string name="title_activity_register" translatable="false">RegisterActivity</string>
     <string name="title_activity_main" translatable="false">MainActivity</string>
     <string name="title_activity_saved">SavedActivity</string>
+    <string name="title_activity_result">ResultActivity</string>
 </resources>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_menu"
+    tools:context=".activities.ResultActivity">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imgCrowd"
+                android:layout_marginTop="30dp"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:src="@drawable/cheeringcrowd"
+                android:layout_centerHorizontal="true"/>
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="¡Estos son tus resultados!"
+                android:layout_margin="16dp"
+                android:textColor="@android:color/holo_blue_dark"
+                android:textSize="30sp"/>
+
+            <RelativeLayout
+                android:layout_below="@+id/imgCrowd"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tvPunta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:textSize="30sp"
+                    android:text="Puntaje: "/>
+
+                <TextView
+                    android:id="@+id/tvPuntaje"
+                    android:layout_toRightOf="@id/tvPunta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:textSize="30sp"
+                    android:text="0"/>
+
+                <TextView
+                    android:id="@+id/tvNiveles"
+                    android:layout_below="@id/tvPuntaje"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:textSize="30sp"
+                    android:text="Nivel alcanzado: "/>
+
+                <TextView
+                    android:id="@+id/tvNivelesAl"
+                    android:layout_toRightOf="@id/tvNiveles"
+                    android:layout_below="@id/tvPuntaje"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:textSize="30sp"
+                    android:text="0"/>
+
+                <TextView
+                    android:id="@+id/tvTiempito"
+                    android:layout_below="@id/tvNivelesAl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:textSize="30sp"
+                    android:text="Tiempo: "/>
+
+                <TextView
+                    android:id="@+id/tvTiempoLo"
+                    android:layout_toRightOf="@id/tvTiempito"
+                    android:layout_below="@id/tvNivelesAl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:textSize="30sp"
+                    android:text="0"/>
+
+                <TextView
+                    android:id="@+id/tvMejorar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:textSize="30sp"
+                    android:layout_below="@id/tvTiempito"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:text="¿En qué mejorar?"/>
+
+                <TextView
+                    android:id="@+id/tvRecomendacion"
+                    android:layout_below="@id/tvMejorar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:textSize="30sp"
+                    android:text="texto"/>
+
+                <Button
+                    android:id="@+id/goToMain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/custom_button_pressed2"
+                    android:textSize="@dimen/textIteraciones"
+                    android:padding="10dp"
+                    android:text="Ir a menu principal"
+                    android:layout_below="@id/tvRecomendacion"
+                    android:onClick="goToMainBoard"
+                    android:textStyle="bold"
+                    android:layout_marginTop="20dp"
+                    android:layout_centerInParent="true"
+                    android:textColor="@android:color/white"/>
+
+                <Button
+                    android:id="@+id/btnSaveResult"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/custom_button_pressed2"
+                    android:textSize="@dimen/textIteraciones"
+                    android:padding="10dp"
+                    android:text="Guardar Resultado"
+                    android:layout_below="@id/goToMain"
+                    android:onClick="saveResult"
+                    android:textStyle="bold"
+                    android:layout_marginTop="20dp"
+                    android:layout_centerInParent="true"
+                    android:textColor="@android:color/white"/>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

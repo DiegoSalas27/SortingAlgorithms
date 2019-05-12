@@ -45,11 +45,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     MediaPlayer myMedia, myMedia2, myMedia3;
     Button startButton, btnSee, btnGuide, btnBack, btnSavedGames, btnDeleteGames;
     String sortAlgorithm, copyB;
-    boolean result, once = false;
+    boolean result, once = false, salir = false;
     public static int  ite1;
     public static String algorithmType;
     private CountDownTimer countDownTimer;
-    private long timeLeftInMilliseconds = 600000; //10min
+    private long timeLeftInMilliseconds = 120000; //2min
     private boolean timeRunning;
 
     int[] arrInt = new int[5];
@@ -66,11 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         myMedia3 = MediaPlayer.create(MainActivity.this, R.raw.button1);
         inicializarDatos();
         if (getIntent().getExtras() != null) {
-            if(!once) {
-                myMedia2.start();
-                inicializarVariablesGlobales();
-                once= true;
-            }
+            myMedia2.start();
             startButton.setVisibility(View.INVISIBLE);
             btnGuide.setVisibility(View.INVISIBLE);
             btnSavedGames.setVisibility(View.INVISIBLE);
@@ -81,10 +77,24 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             algorithms(getIntent().getExtras().getString("algoritmo"),
                     getIntent().getExtras().getString("iteracion"),
                     getIntent().getExtras().getString("numeros"),
-                    getIntent().getExtras().getString("iteracionF"));
+                    getIntent().getExtras().getString("iteracionF"),
+                    getIntent().getExtras().getString("timeLeftInMilliseconds"),
+                    getIntent().getExtras().getString("nivel"),
+                    getIntent().getExtras().getString("puntaje"));
+            inicializarVariablesGlobales();
         } else {
             Datos.setPasa(false);
             ite1 = 0;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (salir) {
+            super.onBackPressed();
+        } else {
+            salir = true;
+            Toast.makeText(getApplicationContext(),"Volver a presionar el botón back cerrará la aplicación", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -164,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         imgBackgroundMain.setVisibility(view.INVISIBLE);
         gameRelativeLayout.setVisibility(view.VISIBLE);
         imgBackground.setVisibility(view.VISIBLE);
-        algorithms("", "", "", "");
+        algorithms("", "", "", "", "", "", "");
 
     }
     public void guide(View view){
@@ -239,7 +249,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         return result;
     }
 
-    public void algorithms(String algoritmo, String iteracion, String numeros, String iteracionF){
+    public void algorithms(String algoritmo, String iteracion, String numeros, String iteracionF, String timeLeftInMilliseconds,
+                           String nivel, String puntaje){
         if (algoritmo == "") {
             Random randomGenerator = new Random();
             int arrInt2[] = new int[5];
@@ -277,6 +288,18 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             algoritmito.setNumIteraciones(Integer.valueOf(iteracionF));
             Datos.setPasa(false);
             copyB = "copy";
+            this.timeLeftInMilliseconds = Long.parseLong(timeLeftInMilliseconds);
+
+            if (Integer.valueOf(puntaje) < 0) {
+                correct = 0;
+            } else {
+                correct = Integer.valueOf(puntaje);
+            }
+
+            this.nivel = Integer.parseInt(nivel);
+            tvCorrect.setText(String.valueOf(correct));
+
+
             tvIteration.setText("number of iterations left:");
 
             int temp1[] = new int[5];
@@ -380,14 +403,49 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
             @Override
             public void onFinish() {
+                startButton.setVisibility(View.VISIBLE);
+                btnGuide.setVisibility(View.VISIBLE);
+                btnSavedGames.setVisibility(View.VISIBLE);
+                btnDeleteGames.setVisibility(View.VISIBLE);
+                imgBackgroundMain.setVisibility(View.VISIBLE);
+                gameRelativeLayout.setVisibility(View.INVISIBLE);
+                imgBackground.setVisibility(View.INVISIBLE);
 
+                restartValues();
+
+                setContentView(R.layout.activity_main);
+
+                Bundle bundle = new Bundle();
+                bundle.putString("nivel", String.valueOf(nivel));
+                bundle.putString("puntaje", String.valueOf(correct));
+                bundle.putString("timeLeftInMilliseconds", String.valueOf(timeLeftInMilliseconds));
+                Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         }.start();
 
         timeRunning = true;
+    }
 
-        //countDownTimer.cancel();
-        //timeRunning = false;
+    public void restartValues() {
+        sortAlgorithm = "";
+        copyB = "";
+        correct = 0;
+        copyB = "";
+        nivel = 1;
+        result = false;
+        once = false;
+        salir = false;
+        ite1 = 0;
+        algorithmType = "";
+        timeLeftInMilliseconds = 120000;
+        timeRunning = false;
+
+        arrInt = new int[5];
+        yourArray = new int[5];
+        i = 0;
+        randomInt = 0;
     }
 
     public void updateTimer() {
@@ -560,9 +618,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
         String currentDateandTime = sdf.format(new Date());
 
-        Partida partida = new Partida(nivel, algorithmType, (double) correct, ite1, tvBlueQuareText.getText() + "," + tvBlueQuareText2.getText() + ","
-                + tvBlueQuareText3.getText() + "," + tvBlueQuareText4.getText() + "," +
-                tvBlueQuareText5.getText(), user, currentDateandTime, algoritmito.getNumIteraciones());
+        Partida partida = new Partida(nivel, algorithmType, correct, ite1, tvBlueQuareText.getText() + "," +
+                tvBlueQuareText2.getText() + "," + tvBlueQuareText3.getText() + "," + tvBlueQuareText4.getText() + "," +
+                tvBlueQuareText5.getText(), user, currentDateandTime, algoritmito.getNumIteraciones(), timeLeftInMilliseconds);
 
         partida.save();
 
@@ -585,6 +643,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
             int event = dragEvent.getAction();
             final View myView = (View) dragEvent.getLocalState();
+            salir = false;
 
             switch(event){
 
@@ -629,7 +688,10 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                             myMedia = MediaPlayer.create(MainActivity.this, R.raw.boo);
                             myMedia.start();
                             imgClaps.setImageResource(R.drawable.wrong);
-                            correct -= 5;
+                            if(correct - 5 < 0)
+                                correct = 0;
+                            else
+                                correct -= 5;
                             animationResult();
                         }
                         tvCorrect.setText(String.valueOf(correct));

@@ -5,15 +5,16 @@ import com.orm.SugarRecord;
 public class Partida extends SugarRecord {
     Integer nivel;
     String algoritmo;
-    Double puntaje;
+    Integer puntaje;
     Integer iteracion;
     String numeros;
     User user;
     Integer iteracionF;
     String fecha;
+    long timeLeftInMilliseconds;
 
-    public Partida(Integer nivel, String algoritmo, Double puntaje, Integer iteracion,
-                   String numeros, User user, String fecha, Integer iteracionF) {
+    public Partida(Integer nivel, String algoritmo, Integer puntaje, Integer iteracion,
+                   String numeros, User user, String fecha, Integer iteracionF, long timeLeftInMilliseconds) {
         this.nivel = nivel;
         this.algoritmo = algoritmo;
         this.puntaje = puntaje;
@@ -22,6 +23,7 @@ public class Partida extends SugarRecord {
         this.user = user;
         this.fecha = fecha;
         this.iteracionF = iteracionF;
+        this.timeLeftInMilliseconds = timeLeftInMilliseconds;
     }
 
     public Partida() {
@@ -43,11 +45,11 @@ public class Partida extends SugarRecord {
         this.algoritmo = algoritmo;
     }
 
-    public Double getPuntaje() {
+    public Integer getPuntaje() {
         return puntaje;
     }
 
-    public void setPuntaje(Double puntaje) {
+    public void setPuntaje(Integer puntaje) {
         this.puntaje = puntaje;
     }
 
@@ -89,5 +91,13 @@ public class Partida extends SugarRecord {
 
     public void setFecha(String fecha) {
         this.fecha = fecha;
+    }
+
+    public long getTimeLeftInMilliseconds() {
+        return timeLeftInMilliseconds;
+    }
+
+    public void setTimeLeftInMilliseconds(long timeLeftInMilliseconds) {
+        this.timeLeftInMilliseconds = timeLeftInMilliseconds;
     }
 }

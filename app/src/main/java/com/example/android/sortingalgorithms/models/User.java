@@ -11,6 +11,10 @@ public class User extends SugarRecord {
         return Partida.find(Partida.class, "user = ?", String.valueOf(this.getId()));
     }
 
+    public List<Resultado> getResultados() {
+        return Resultado.find(Resultado.class, "user = ?", String.valueOf(this.getId()));
+    }
+
     public User() {
     }
 

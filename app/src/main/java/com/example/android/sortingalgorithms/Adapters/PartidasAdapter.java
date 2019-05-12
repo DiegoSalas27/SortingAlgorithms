@@ -1,22 +1,17 @@
 package com.example.android.sortingalgorithms.Adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.sortingalgorithms.R;
-import com.example.android.sortingalgorithms.activities.GuideMenu;
 import com.example.android.sortingalgorithms.activities.MainActivity;
-import com.example.android.sortingalgorithms.activities.SavedActivity;
 import com.example.android.sortingalgorithms.models.Partida;
 
 import java.util.ArrayList;
@@ -74,6 +69,7 @@ public class PartidasAdapter extends RecyclerView.Adapter<PartidasAdapter.ViewHo
                     bundle.putString("iteracion", String.valueOf(partida.getIteracion()));
                     bundle.putString("numeros", partida.getNumeros());
                     bundle.putString("iteracionF", String.valueOf(partida.getIteracionF()));
+                    bundle.putString("timeLeftInMilliseconds", String.valueOf(partida.getTimeLeftInMilliseconds()));
                     Intent intent = new Intent(mContext, MainActivity.class);
                     intent.putExtras(bundle);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

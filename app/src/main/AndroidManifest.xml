@@ -19,9 +19,13 @@
         android:theme="@style/Theme.AppCompat.NoActionBar"
         tools:replace="android:icon">
         <activity
+            android:name=".activities.ResultActivity"
+            android:label="@string/title_activity_result"
+            android:theme="@android:style/Theme.Dialog"/>
+        <activity
             android:name=".activities.SavedActivity"
             android:label="@string/title_activity_saved"
-            android:theme="@android:style/Theme.Dialog"></activity>
+            android:theme="@android:style/Theme.Dialog" />
 
         <meta-data
             android:name="DATABASE"
@@ -54,8 +58,7 @@
         </activity>
         <activity
             android:name=".activities.utility.AlgoritmosDeOrdenamiento"
-            android:parentActivityName=".activities.MainActivity"
-            android:screenOrientation="landscape">
+            android:parentActivityName=".activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
