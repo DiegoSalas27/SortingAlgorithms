@@ -2,6 +2,7 @@ package com.example.android.sortingalgorithms.activities;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -11,7 +12,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.android.sortingalgorithms.R;
-import com.example.android.sortingalgorithms.models.Partida;
 import com.example.android.sortingalgorithms.models.Resultado;
 import com.example.android.sortingalgorithms.models.User;
 
@@ -75,14 +75,16 @@ public class ResultActivity extends Activity {
 
         } else {
             mediaCrowd = MediaPlayer.create(ResultActivity.this, R.raw.finaboo);
-            tvRecomendacion.setText("Has logadro en: " + tvTiempoLo.getText() + "un puntaje de: " + tvPuntaje.getText() +
-                    "Es un resultado por debajo del promedio.");
+            tvRecomendacion.setText("Has logadro en: " + tvTiempoLo.getText() + " un puntaje de: " + tvPuntaje.getText() +
+                    " Es un resultado por debajo del promedio.");
             mediaCrowd.start();
         }
     }
 
     public void goToMainBoard(View view){
         myMedia.start();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
         finish();
     }
 

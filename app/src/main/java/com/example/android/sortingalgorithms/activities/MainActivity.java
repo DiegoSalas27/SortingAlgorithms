@@ -411,16 +411,14 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 gameRelativeLayout.setVisibility(View.INVISIBLE);
                 imgBackground.setVisibility(View.INVISIBLE);
 
-                restartValues();
-
-                setContentView(R.layout.activity_main);
-
                 Bundle bundle = new Bundle();
                 bundle.putString("nivel", String.valueOf(nivel));
                 bundle.putString("puntaje", String.valueOf(correct));
                 bundle.putString("timeLeftInMilliseconds", String.valueOf(timeLeftInMilliseconds));
                 Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
                 intent.putExtras(bundle);
+                restartValues();
+                setContentView(R.layout.activity_main);
                 startActivity(intent);
             }
         }.start();
