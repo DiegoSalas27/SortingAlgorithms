@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     AlgoritmosDeOrdenamiento algoritmito = new AlgoritmosDeOrdenamiento();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +74,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             imgBackground.setVisibility(View.VISIBLE);
             algorithms(getIntent().getExtras().getString("algoritmo"),
                     getIntent().getExtras().getString("iteracion"),
-                    getIntent().getExtras().getString("numeros"));
+                    getIntent().getExtras().getString("numeros"),
+                    getIntent().getExtras().getString("iteracionF"));
         } else {
             Datos.setPasa(false);
             ite1 = 0;
@@ -84,34 +84,34 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     public void inicializarDatos(){
 
-        imgBlueSquare = (ImageView) findViewById(R.id.imgBlueQuare);
-        imgBlueSquare2 = (ImageView) findViewById(R.id.imgBlueQuare);
-        imgBlueSquare3 = (ImageView) findViewById(R.id.imgBlueQuare);
-        imgBlueSquare4 = (ImageView) findViewById(R.id.imgBlueQuare);
-        imgBlueSquare5 = (ImageView) findViewById(R.id.imgBlueQuare);
-        imgGetter1 = (ImageView) findViewById(R.id.imgGetter1);
-        imgGetter2 = (ImageView) findViewById(R.id.imgGetter2);
-        imgGetter3 = (ImageView) findViewById(R.id.imgGetter3);
-        imgGetter4 = (ImageView) findViewById(R.id.imgGetter4);
-        imgGetter5 = (ImageView) findViewById(R.id.imgGetter5);
-        imgClaps = (ImageView) findViewById(R.id.imgClaps);
-        imgBackground = (ImageView) findViewById(R.id.imgBackground);
-        imgBackgroundMain = (ImageView) findViewById(R.id.imgBackgroundMain);
+        imgBlueSquare = findViewById(R.id.imgBlueQuare);
+        imgBlueSquare2 = findViewById(R.id.imgBlueQuare);
+        imgBlueSquare3 = findViewById(R.id.imgBlueQuare);
+        imgBlueSquare4 = findViewById(R.id.imgBlueQuare);
+        imgBlueSquare5 = findViewById(R.id.imgBlueQuare);
+        imgGetter1 = findViewById(R.id.imgGetter1);
+        imgGetter2 = findViewById(R.id.imgGetter2);
+        imgGetter3 = findViewById(R.id.imgGetter3);
+        imgGetter4 = findViewById(R.id.imgGetter4);
+        imgGetter5 = findViewById(R.id.imgGetter5);
+        imgClaps = findViewById(R.id.imgClaps);
+        imgBackground = findViewById(R.id.imgBackground);
+        imgBackgroundMain = findViewById(R.id.imgBackgroundMain);
 
-        roBlueSquare1 = (RelativeLayout) findViewById(R.id.roBlueSquare1);
-        roBlueSquare2 = (RelativeLayout) findViewById(R.id.roBlueSquare2);
-        roBlueSquare3 = (RelativeLayout) findViewById(R.id.roBlueSquare3);
-        roBlueSquare4 = (RelativeLayout) findViewById(R.id.roBlueSquare4);
-        roBlueSquare5 = (RelativeLayout) findViewById(R.id.roBlueSquare5);
-        gameRelativeLayout = (RelativeLayout) findViewById(R.id.gameRelativeLayout);
+        roBlueSquare1 = findViewById(R.id.roBlueSquare1);
+        roBlueSquare2 = findViewById(R.id.roBlueSquare2);
+        roBlueSquare3 = findViewById(R.id.roBlueSquare3);
+        roBlueSquare4 = findViewById(R.id.roBlueSquare4);
+        roBlueSquare5 = findViewById(R.id.roBlueSquare5);
+        gameRelativeLayout = findViewById(R.id.gameRelativeLayout);
 
-        loTarget1 = (LinearLayout) findViewById(R.id.loTarget1);
-        loTarget2 = (LinearLayout) findViewById(R.id.loTarget2);
-        loTarget3 = (LinearLayout) findViewById(R.id.loTarget3);
-        loTarget4 = (LinearLayout) findViewById(R.id.loTarget4);
-        loTarget5 = (LinearLayout) findViewById(R.id.loTarget5);
-        loFatherTarget = (LinearLayout) findViewById(R.id.loFatherTarget);
-        loFatherDrag = (LinearLayout) findViewById(R.id.loFatherDrag);
+        loTarget1 = findViewById(R.id.loTarget1);
+        loTarget2 = findViewById(R.id.loTarget2);
+        loTarget3 = findViewById(R.id.loTarget3);
+        loTarget4 = findViewById(R.id.loTarget4);
+        loTarget5 = findViewById(R.id.loTarget5);
+        loFatherTarget = findViewById(R.id.loFatherTarget);
+        loFatherDrag = findViewById(R.id.loFatherDrag);
 
 
         tvBlueQuareText = findViewById(R.id.tvBlueQuareText);
@@ -136,10 +136,10 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         loTarget4.setOnDragListener(dragListener);
         loTarget5.setOnDragListener(dragListener);
 
-        startButton = (Button) findViewById(R.id.startButton);
-        btnSee = (Button) findViewById(R.id.btnSee);
-        btnGuide = (Button) findViewById(R.id.btnInstruction);
-        btnBack = (Button) findViewById(R.id.btnBack);
+        startButton = findViewById(R.id.startButton);
+        btnSee = findViewById(R.id.btnSee);
+        btnGuide = findViewById(R.id.btnInstruction);
+        btnBack = findViewById(R.id.btnBack);
         btnSavedGames = findViewById(R.id.btnSavedGames);
         btnDeleteGames = findViewById(R.id.btnDeleteGames);
     }
@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         imgBackgroundMain.setVisibility(view.INVISIBLE);
         gameRelativeLayout.setVisibility(view.VISIBLE);
         imgBackground.setVisibility(view.VISIBLE);
-        algorithms("", "", "");
+        algorithms("", "", "", "");
 
     }
     public void guide(View view){
@@ -200,10 +200,10 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                     tvSortResult.setText("The sorted array so far is: " + algoritmito.getIt4());break;
         }
 
-        tvYourResult.setText("Your array is: " + String.valueOf(yourArray[0]) + " " +
-                String.valueOf(yourArray[1]) + " " +
-                String.valueOf(yourArray[2]) + " " + String.valueOf(yourArray[3]) + " " +
-                String.valueOf(yourArray[4]));
+        tvYourResult.setText("Your array is: " + (yourArray[0]) + " " +
+                (yourArray[1]) + " " +
+                (yourArray[2]) + " " + (yourArray[3]) + " " +
+                (yourArray[4]));
     }
     public boolean Results(){
 
@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         return result;
     }
 
-    public void algorithms(String algoritmo, String iteracion, String numeros){
+    public void algorithms(String algoritmo, String iteracion, String numeros, String iteracionF){
         if (algoritmo == "") {
             Random randomGenerator = new Random();
             int arrInt2[] = new int[5];
@@ -263,6 +263,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             getBackGround(randomInt);
 
         } else {
+            ite1 = Integer.valueOf(iteracion);
+            algoritmito.setNumIteraciones(Integer.valueOf(iteracionF));
+
             tvIteration.setText("number of iterations left:");
 
             int temp1[] = new int[5];
@@ -276,22 +279,22 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             }
 
             switch(algoritmo) {
-                case "modifiedBubbleSort": tvIteration.setText(tvIteration.getText() + " " +
-                        (algoritmito.bubbleSortImproved(temp1) - Integer.valueOf(iteracion)));
-                         algoritmito.setNumIteraciones(algoritmito.bubbleSortImproved(temp1) - Integer.valueOf(iteracion));
-                        getBackGround(0);break;
-                case "selectionSort": tvIteration.setText(tvIteration.getText() + " " +
-                        (algoritmito.ordSeleccion(temp1) - Integer.valueOf(iteracion)));
-                        algoritmito.setNumIteraciones(algoritmito.ordSeleccion(temp1) - Integer.valueOf(iteracion));
-                        getBackGround(1);break;
-                case "insertionSort": tvIteration.setText(tvIteration.getText() + " " +
-                        (algoritmito.insercionSort(temp1) - Integer.valueOf(iteracion)));
-                        algoritmito.setNumIteraciones(algoritmito.insercionSort(temp1) - Integer.valueOf(iteracion));
-                        getBackGround(2);break;
-                case "cocktailSort": tvIteration.setText(tvIteration.getText() + " " +
-                        (algoritmito.cocktelSort(temp1) - Integer.valueOf(iteracion)));
-                        algoritmito.setNumIteraciones(algoritmito.cocktelSort(temp1) - Integer.valueOf(iteracion));
-                        getBackGround(3);break;
+                case "modifiedBubbleSort":
+                    tvIteration.setText(tvIteration.getText() + " " + algoritmito.getNumIteraciones());
+                        randomInt = 0;
+                        getBackGround(0); break;
+                case "selectionSort":
+                    tvIteration.setText(tvIteration.getText() + " " + algoritmito.getNumIteraciones());
+                        randomInt = 1;
+                        getBackGround(1); break;
+                case "insertionSort":
+                    tvIteration.setText(tvIteration.getText() + " " + algoritmito.getNumIteraciones());
+                        randomInt = 2;
+                        getBackGround(2); break;
+                case "cocktailSort":
+                    tvIteration.setText(tvIteration.getText() + " " + algoritmito.getNumIteraciones());
+                        randomInt = 3;
+                        getBackGround(3); break;
             }
 
             switch (iteracion) {
@@ -300,12 +303,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 case "3": algoritmito.setArr3(arreglo); break;
                 case "4": algoritmito.setArr4(arreglo); break;
             }
-
-            Log.i("ARREGLOT", iteracion);
-            Log.i("ARREGLOT", String.valueOf(algoritmito.getArr1()));
-            Log.i("ARREGLOT", String.valueOf(algoritmito.getArr2()));
-            Log.i("ARREGLOT", String.valueOf(algoritmito.getArr3()));
-            Log.i("ARREGLOT", String.valueOf(algoritmito.getArr4()));
 
             getIteration(Integer.valueOf(iteracion));
         }
@@ -431,6 +428,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
                                             ite1++;
                                             Datos.setPasa(true);
+                                            Log.i("ALGOLEFT4", String.valueOf(algoritmito.getNumIteraciones()));
                                             algoritmito.setNumIteraciones(algoritmito.getNumIteraciones() - 1);
                                         } else{
 
@@ -511,7 +509,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
         Partida partida = new Partida(1, algorithmType, (double) 1, ite1, tvBlueQuareText.getText() + "," + tvBlueQuareText2.getText() + ","
                 + tvBlueQuareText3.getText() + "," + tvBlueQuareText4.getText() + "," +
-                tvBlueQuareText5.getText(), user, currentDateandTime);
+                tvBlueQuareText5.getText(), user, currentDateandTime, algoritmito.getNumIteraciones());
 
         partida.save();
 

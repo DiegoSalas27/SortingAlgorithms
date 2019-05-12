@@ -9,10 +9,11 @@ public class Partida extends SugarRecord {
     Integer iteracion;
     String numeros;
     User user;
+    Integer iteracionF;
     String fecha;
 
     public Partida(Integer nivel, String algoritmo, Double puntaje, Integer iteracion,
-                   String numeros, User user, String fecha) {
+                   String numeros, User user, String fecha, Integer iteracionF) {
         this.nivel = nivel;
         this.algoritmo = algoritmo;
         this.puntaje = puntaje;
@@ -20,6 +21,7 @@ public class Partida extends SugarRecord {
         this.numeros = numeros;
         this.user = user;
         this.fecha = fecha;
+        this.iteracionF = iteracionF;
     }
 
     public Partida() {
@@ -75,6 +77,14 @@ public class Partida extends SugarRecord {
 
     public String getFecha() {
         return fecha;
+    }
+
+    public Integer getIteracionF() {
+        return iteracionF;
+    }
+
+    public void setIteracionF(Integer iteracionF) {
+        this.iteracionF = iteracionF;
     }
 
     public void setFecha(String fecha) {

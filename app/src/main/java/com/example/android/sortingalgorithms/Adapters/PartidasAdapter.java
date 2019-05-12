@@ -73,6 +73,7 @@ public class PartidasAdapter extends RecyclerView.Adapter<PartidasAdapter.ViewHo
                     bundle.putString("puntaje", String.valueOf(partida.getPuntaje()));
                     bundle.putString("iteracion", String.valueOf(partida.getIteracion()));
                     bundle.putString("numeros", partida.getNumeros());
+                    bundle.putString("iteracionF", String.valueOf(partida.getIteracionF()));
                     Intent intent = new Intent(mContext, MainActivity.class);
                     intent.putExtras(bundle);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
