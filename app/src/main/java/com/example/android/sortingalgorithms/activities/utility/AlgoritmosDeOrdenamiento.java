@@ -408,7 +408,7 @@ public class AlgoritmosDeOrdenamiento extends AppCompatActivity {
         }
         return numIteraciones2;
     }
-    public boolean  cocktailSort(int [] list, int [] choice)
+    public boolean  cocktailSort(int [] list, int [] choice, String copyB)
     {
         int r = MainActivity.ite1;
         correcto = false;
@@ -416,6 +416,9 @@ public class AlgoritmosDeOrdenamiento extends AppCompatActivity {
         int end = 5-1;
         boolean swapped = true;
         int b = 0;
+        if (copyB != "") {
+            b = r;
+        }
 
         limpiarArreglos();
 

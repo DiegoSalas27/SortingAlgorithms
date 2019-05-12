@@ -60,8 +60,19 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12dp"
                         android:paddingTop="3.5dp"
-                        android:text="Puntaje: 0"
+                        android:text="Puntaje:"
                         android:layout_toRightOf="@+id/tvAlgorithmName"
+                        android:textColor="@android:color/white"
+                        android:textStyle="bold"
+                        android:textSize="20sp"/>
+                    <TextView
+                        android:id="@+id/tvCorrect"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:paddingTop="3.5dp"
+                        android:text="0"
+                        android:layout_toRightOf="@+id/tvPuntaje"
                         android:textColor="@android:color/white"
                         android:textStyle="bold"
                         android:textSize="20sp"/>
@@ -107,8 +118,21 @@
                         android:layout_marginTop="20dp"
                         android:layout_marginLeft="12dp"
                         android:layout_below="@+id/tvIteration"
-                        android:text="Tiempo: 100"
+                        android:text="Tiempo:"
                         android:layout_toRightOf="@+id/btnLoad"
+                        android:textColor="@android:color/white"
+                        android:textStyle="bold"
+                        android:textSize="20sp"/>
+
+                    <TextView
+                        android:id="@+id/tvTiempoL"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_below="@+id/tvIteration"
+                        android:text="100"
+                        android:layout_toRightOf="@+id/tvTiempo"
                         android:textColor="@android:color/white"
                         android:textStyle="bold"
                         android:textSize="20sp"/>

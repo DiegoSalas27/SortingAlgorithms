@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Display;
@@ -27,7 +28,6 @@ import com.example.android.sortingalgorithms.R;
 import com.example.android.sortingalgorithms.models.Partida;
 import com.example.android.sortingalgorithms.models.User;
 
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -40,18 +40,21 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     ImageView imgBlueSquare, imgBlueSquare2, imgBlueSquare3, imgBlueSquare4, imgBlueSquare5,
             imgGetter1, imgGetter2, imgGetter3, imgGetter4, imgGetter5, imgClaps, imgBackground, imgBackgroundMain;
     TextView tvAlgorithmName, tvBlueQuareText, tvBlueQuareText2, tvBlueQuareText3, tvBlueQuareText4, tvBlueQuareText5, tvIteration,
-    tvSortResult, tvYourResult;
+    tvSortResult, tvYourResult, tvCorrect, tvTiempoL;
     RelativeLayout gameRelativeLayout;
     MediaPlayer myMedia, myMedia2, myMedia3;
     Button startButton, btnSee, btnGuide, btnBack, btnSavedGames, btnDeleteGames;
-    String sortAlgorithm;
+    String sortAlgorithm, copyB;
     boolean result, once = false;
     public static int  ite1;
     public static String algorithmType;
+    private CountDownTimer countDownTimer;
+    private long timeLeftInMilliseconds = 600000; //10min
+    private boolean timeRunning;
 
     int[] arrInt = new int[5];
     int yourArray[] = new int[5];
-    int i = 0, randomInt = 0;
+    int i = 0, randomInt = 0, correct = 0, nivel = 1;
 
     AlgoritmosDeOrdenamiento algoritmito = new AlgoritmosDeOrdenamiento();
 
@@ -63,8 +66,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         myMedia3 = MediaPlayer.create(MainActivity.this, R.raw.button1);
         inicializarDatos();
         if (getIntent().getExtras() != null) {
-            if(!once)myMedia2.start();
-            once= true;
+            if(!once) {
+                myMedia2.start();
+                inicializarVariablesGlobales();
+                once= true;
+            }
             startButton.setVisibility(View.INVISIBLE);
             btnGuide.setVisibility(View.INVISIBLE);
             btnSavedGames.setVisibility(View.INVISIBLE);
@@ -123,6 +129,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         tvIteration = findViewById(R.id.tvIteration);
         tvYourResult = findViewById(R.id.tvYourResult);
         tvSortResult = findViewById(R.id.tvArrayResult);
+        tvCorrect = findViewById(R.id.tvCorrect);
+        tvTiempoL = findViewById(R.id.tvTiempoL);
 
         roBlueSquare1.setOnTouchListener(this);
         roBlueSquare2.setOnTouchListener(this);
@@ -144,9 +152,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         btnDeleteGames = findViewById(R.id.btnDeleteGames);
     }
     public void start(View view){
-
-        if(!once)myMedia2.start();
-        once= true;
+        if(!once) {
+            myMedia2.start();
+            inicializarVariablesGlobales();
+            once= true;
+        }
         startButton.setVisibility(view.INVISIBLE);
         btnGuide.setVisibility(view.INVISIBLE);
         btnSavedGames.setVisibility(View.INVISIBLE);
@@ -222,7 +232,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 mostrarResultados();
                 break;
             case "cocktailSort":
-                result = algoritmito.cocktailSort(arrInt, yourArray);
+                result = algoritmito.cocktailSort(arrInt, yourArray, copyB);
                 mostrarResultados();
                 break;
         }
@@ -265,7 +275,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         } else {
             ite1 = Integer.valueOf(iteracion);
             algoritmito.setNumIteraciones(Integer.valueOf(iteracionF));
-
+            Datos.setPasa(false);
+            copyB = "copy";
             tvIteration.setText("number of iterations left:");
 
             int temp1[] = new int[5];
@@ -306,6 +317,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
             getIteration(Integer.valueOf(iteracion));
         }
+    }
+
+    public void inicializarVariablesGlobales() {
+        startTimer();
+        Toast.makeText(getApplicationContext(),"Nivel " + nivel, Toast.LENGTH_SHORT).show();
     }
 
     public void getIteration(Integer iteracion) {
@@ -353,6 +369,40 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         tvBlueQuareText4.setText(String.valueOf(arrayList.get(3)));
         tvBlueQuareText5.setText(String.valueOf(arrayList.get(4)));
     }
+
+    public void startTimer() {
+        countDownTimer = new CountDownTimer(timeLeftInMilliseconds, 1000) {
+            @Override
+            public void onTick(long l) {
+                timeLeftInMilliseconds = l;
+                updateTimer();
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        }.start();
+
+        timeRunning = true;
+
+        //countDownTimer.cancel();
+        //timeRunning = false;
+    }
+
+    public void updateTimer() {
+        int minutes = (int) timeLeftInMilliseconds / 60000;
+        int seconds = (int) timeLeftInMilliseconds % 60000 / 1000;
+
+        String timeleftText;
+        timeleftText = "" + minutes;
+        timeleftText += ":";
+        if (seconds < 10) timeleftText += "0";
+        timeleftText += seconds;
+
+        tvTiempoL.setText(timeleftText);
+    }
+
     public void setLayout(String text){
 
         tvAlgorithmName.setText(text);
@@ -431,7 +481,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                                             Log.i("ALGOLEFT4", String.valueOf(algoritmito.getNumIteraciones()));
                                             algoritmito.setNumIteraciones(algoritmito.getNumIteraciones() - 1);
                                         } else{
-
                                             algoritmito.setNumIteraciones(0);
                                             arrInt = null;
                                             yourArray = null;
@@ -442,12 +491,16 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                                             algoritmito.setEndaux(4);
                                             algoritmito.setStartaux(0);
                                             ite1 = 0;
+                                            nivel++;
+                                            Toast.makeText(getApplicationContext(),"Nivel " + nivel, Toast.LENGTH_SHORT).show();
                                         }
 
                                         i = 0;
                                         start(startButton);
                                         tvIteration.setText("number of iterations left:");
                                         tvIteration.setText(tvIteration.getText() + " " + String.valueOf(algoritmito.getNumIteraciones()));
+                                        tvCorrect.setText(String.valueOf(correct));
+                                        startTimer();
 
                                     }
                                 }). start();
@@ -507,7 +560,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
         String currentDateandTime = sdf.format(new Date());
 
-        Partida partida = new Partida(1, algorithmType, (double) 1, ite1, tvBlueQuareText.getText() + "," + tvBlueQuareText2.getText() + ","
+        Partida partida = new Partida(nivel, algorithmType, (double) correct, ite1, tvBlueQuareText.getText() + "," + tvBlueQuareText2.getText() + ","
                 + tvBlueQuareText3.getText() + "," + tvBlueQuareText4.getText() + "," +
                 tvBlueQuareText5.getText(), user, currentDateandTime, algoritmito.getNumIteraciones());
 
@@ -569,14 +622,17 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                             myMedia = MediaPlayer.create(MainActivity.this, R.raw.applause_2);
                             myMedia.start();
                             imgClaps.setImageResource(R.drawable.claps);
+                            correct += 10;
                             animationResult();
 
                         } else{
                             myMedia = MediaPlayer.create(MainActivity.this, R.raw.boo);
                             myMedia.start();
                             imgClaps.setImageResource(R.drawable.wrong);
+                            correct -= 5;
                             animationResult();
                         }
+                        tvCorrect.setText(String.valueOf(correct));
                     }
                     break;
             }
