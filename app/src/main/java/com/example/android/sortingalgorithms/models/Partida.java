@@ -1,20 +1,28 @@
 package com.example.android.sortingalgorithms.models;
 
-public class Partida {
+import com.orm.SugarRecord;
+
+public class Partida extends SugarRecord {
     Integer nivel;
     String algoritmo;
     Double puntaje;
     Integer iteracion;
     String numeros;
     User user;
+    String fecha;
 
-    public Partida(Integer nivel, String algoritmo, Double puntaje, Integer iteracion, String numeros, User user) {
+    public Partida(Integer nivel, String algoritmo, Double puntaje, Integer iteracion,
+                   String numeros, User user, String fecha) {
         this.nivel = nivel;
         this.algoritmo = algoritmo;
         this.puntaje = puntaje;
         this.iteracion = iteracion;
         this.numeros = numeros;
         this.user = user;
+        this.fecha = fecha;
+    }
+
+    public Partida() {
     }
 
     public Integer getNivel() {
@@ -63,5 +71,13 @@ public class Partida {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
 }

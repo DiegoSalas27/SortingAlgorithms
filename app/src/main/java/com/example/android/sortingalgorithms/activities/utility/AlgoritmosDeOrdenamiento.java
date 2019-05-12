@@ -575,6 +575,22 @@ public class AlgoritmosDeOrdenamiento extends AppCompatActivity {
         return arr4;
     }
 
+    public void setArr1(ArrayList<Integer> arr1) {
+        this.arr1 = arr1;
+    }
+
+    public void setArr2(ArrayList<Integer> arr2) {
+        this.arr2 = arr2;
+    }
+
+    public void setArr3(ArrayList<Integer> arr3) {
+        this.arr3 = arr3;
+    }
+
+    public void setArr4(ArrayList<Integer> arr4) {
+        this.arr4 = arr4;
+    }
+
     public AlgoritmosDeOrdenamiento() {
     }
 }

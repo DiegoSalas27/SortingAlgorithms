@@ -1,11 +1,14 @@
 package com.example.android.sortingalgorithms.activities;
 
 import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Display;
 import android.view.DragEvent;
 import android.view.MotionEvent;
@@ -16,12 +19,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.sortingalgorithms.activities.utility.AlgoritmosDeOrdenamiento;
 import com.example.android.sortingalgorithms.middleware.Datos;
 import com.example.android.sortingalgorithms.R;
+import com.example.android.sortingalgorithms.models.Partida;
+import com.example.android.sortingalgorithms.models.User;
 
+import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
@@ -34,13 +43,13 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     tvSortResult, tvYourResult;
     RelativeLayout gameRelativeLayout;
     MediaPlayer myMedia, myMedia2, myMedia3;
-    Button startButton, btnSee, btnGuide, btnBack;
+    Button startButton, btnSee, btnGuide, btnBack, btnSavedGames, btnDeleteGames;
     String sortAlgorithm;
     boolean result, once = false;
     public static int  ite1;
     public static String algorithmType;
 
-    int arrInt[] = new int[5];
+    int[] arrInt = new int[5];
     int yourArray[] = new int[5];
     int i = 0, randomInt = 0;
 
@@ -53,9 +62,24 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         setContentView(R.layout.activity_main);
         myMedia2 = MediaPlayer.create(MainActivity.this, R.raw.button3);
         myMedia3 = MediaPlayer.create(MainActivity.this, R.raw.button1);
-        Datos.setPasa(false);
-        ite1 = 0;
         inicializarDatos();
+        if (getIntent().getExtras() != null) {
+            if(!once)myMedia2.start();
+            once= true;
+            startButton.setVisibility(View.INVISIBLE);
+            btnGuide.setVisibility(View.INVISIBLE);
+            btnSavedGames.setVisibility(View.INVISIBLE);
+            btnDeleteGames.setVisibility(View.INVISIBLE);
+            imgBackgroundMain.setVisibility(View.INVISIBLE);
+            gameRelativeLayout.setVisibility(View.VISIBLE);
+            imgBackground.setVisibility(View.VISIBLE);
+            algorithms(getIntent().getExtras().getString("algoritmo"),
+                    getIntent().getExtras().getString("iteracion"),
+                    getIntent().getExtras().getString("numeros"));
+        } else {
+            Datos.setPasa(false);
+            ite1 = 0;
+        }
     }
 
     public void inicializarDatos(){
@@ -90,15 +114,15 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         loFatherDrag = (LinearLayout) findViewById(R.id.loFatherDrag);
 
 
-        tvBlueQuareText = (TextView) findViewById(R.id.tvBlueQuareText);
-        tvBlueQuareText2 = (TextView) findViewById(R.id.tvBlueQuareText2);
-        tvBlueQuareText3 = (TextView) findViewById(R.id.tvBlueQuareText3);
-        tvBlueQuareText4 = (TextView) findViewById(R.id.tvBlueQuareText4);
-        tvBlueQuareText5 = (TextView) findViewById(R.id.tvBlueQuareText5);
-        tvAlgorithmName = (TextView) findViewById(R.id.tvAlgorithmName);
-        tvIteration = (TextView) findViewById(R.id.tvIteration);
-        tvYourResult = (TextView) findViewById(R.id.tvYourResult);
-        tvSortResult = (TextView) findViewById(R.id.tvArrayResult);
+        tvBlueQuareText = findViewById(R.id.tvBlueQuareText);
+        tvBlueQuareText2 = findViewById(R.id.tvBlueQuareText2);
+        tvBlueQuareText3 =  findViewById(R.id.tvBlueQuareText3);
+        tvBlueQuareText4 =  findViewById(R.id.tvBlueQuareText4);
+        tvBlueQuareText5 =   findViewById(R.id.tvBlueQuareText5);
+        tvAlgorithmName = findViewById(R.id.tvAlgorithmName);
+        tvIteration = findViewById(R.id.tvIteration);
+        tvYourResult = findViewById(R.id.tvYourResult);
+        tvSortResult = findViewById(R.id.tvArrayResult);
 
         roBlueSquare1.setOnTouchListener(this);
         roBlueSquare2.setOnTouchListener(this);
@@ -116,6 +140,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         btnSee = (Button) findViewById(R.id.btnSee);
         btnGuide = (Button) findViewById(R.id.btnInstruction);
         btnBack = (Button) findViewById(R.id.btnBack);
+        btnSavedGames = findViewById(R.id.btnSavedGames);
+        btnDeleteGames = findViewById(R.id.btnDeleteGames);
     }
     public void start(View view){
 
@@ -123,10 +149,12 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         once= true;
         startButton.setVisibility(view.INVISIBLE);
         btnGuide.setVisibility(view.INVISIBLE);
+        btnSavedGames.setVisibility(View.INVISIBLE);
+        btnDeleteGames.setVisibility(View.INVISIBLE);
         imgBackgroundMain.setVisibility(view.INVISIBLE);
         gameRelativeLayout.setVisibility(view.VISIBLE);
         imgBackground.setVisibility(view.VISIBLE);
-        algorithms();
+        algorithms("", "", "");
 
     }
     public void guide(View view){
@@ -134,6 +162,18 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         Intent intent = new Intent(this, GuideMenu.class);
         startActivity(intent);
     }
+
+    public void getSaved(View view) {
+        myMedia2.start();
+        Intent intent = new Intent(this, SavedActivity.class);
+        startActivity(intent);
+    }
+
+    public void deleteAll(View view) {
+        Toast.makeText(getApplicationContext(),"Partidas eliminadas!", Toast.LENGTH_SHORT).show();
+        Partida.deleteAll(Partida.class);
+    }
+
     public void mostrarResultados(){
 
         switch(ite1)
@@ -189,48 +229,105 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         return result;
     }
 
-    public void algorithms(){
-        Random randomGenerator = new Random();
-        int arrInt2[] = new int[5];
+    public void algorithms(String algoritmo, String iteracion, String numeros){
+        if (algoritmo == "") {
+            Random randomGenerator = new Random();
+            int arrInt2[] = new int[5];
 
-        if(!Datos.getPasa()) {
+            if(!Datos.getPasa()) {
 
-            for (int i = 0; i < 5; i++) {
+                for (int i = 0; i < 5; i++) {
 
-                arrInt[i] = randomGenerator.nextInt(10);
-                arrInt2[i] = arrInt[i];
+                    arrInt[i] = randomGenerator.nextInt(10);
+                    arrInt2[i] = arrInt[i];
+                }
+
+                randomInt = randomGenerator.nextInt(4);
+
+                tvIteration.setText("number of iterations left:");
+
+                switch(randomInt){
+                    case 0: tvIteration.setText(tvIteration.getText() + " " + (algoritmito.bubbleSortImproved(arrInt2)));
+                        break;
+                    case 1: tvIteration.setText(tvIteration.getText() + " " + (algoritmito.ordSeleccion(arrInt2)));
+                        break;
+                    case 2: tvIteration.setText(tvIteration.getText() + " " + (algoritmito.insercionSort(arrInt2)));
+                        break;
+                    case 3: tvIteration.setText(tvIteration.getText() + " " + (algoritmito.cocktelSort(arrInt2)));
+                        break;
+                }
             }
 
-            randomInt = randomGenerator.nextInt(4);
+            getIteration(ite1);
 
+            getBackGround(randomInt);
+
+        } else {
             tvIteration.setText("number of iterations left:");
 
-            switch(randomInt){
-                case 0: tvIteration.setText(tvIteration.getText() + " " + String.valueOf(algoritmito.bubbleSortImproved(arrInt2)));
-                    break;
-                case 1: tvIteration.setText(tvIteration.getText() + " " + String.valueOf(algoritmito.ordSeleccion(arrInt2)));
-                    break;
-                case 2: tvIteration.setText(tvIteration.getText() + " " + String.valueOf(algoritmito.insercionSort(arrInt2)));
-                    break;
-                case 3: tvIteration.setText(tvIteration.getText() + " " + String.valueOf(algoritmito.cocktelSort(arrInt2)));
-                    break;
-            }
-        }
+            int temp1[] = new int[5];
+            String temp[] = numeros.split(",");
+            ArrayList<Integer> arreglo = new ArrayList<>();
 
-        switch (ite1){
+            for (int i = 0; i < 5; i++) {
+                temp1[i] = Integer.valueOf(temp[i]);
+                arrInt[i] = Integer.valueOf(temp[i]);
+                arreglo.add(Integer.valueOf(temp[i]));
+            }
+
+            switch(algoritmo) {
+                case "modifiedBubbleSort": tvIteration.setText(tvIteration.getText() + " " +
+                        (algoritmito.bubbleSortImproved(temp1) - Integer.valueOf(iteracion)));
+                         algoritmito.setNumIteraciones(algoritmito.bubbleSortImproved(temp1) - Integer.valueOf(iteracion));
+                        getBackGround(0);break;
+                case "selectionSort": tvIteration.setText(tvIteration.getText() + " " +
+                        (algoritmito.ordSeleccion(temp1) - Integer.valueOf(iteracion)));
+                        algoritmito.setNumIteraciones(algoritmito.ordSeleccion(temp1) - Integer.valueOf(iteracion));
+                        getBackGround(1);break;
+                case "insertionSort": tvIteration.setText(tvIteration.getText() + " " +
+                        (algoritmito.insercionSort(temp1) - Integer.valueOf(iteracion)));
+                        algoritmito.setNumIteraciones(algoritmito.insercionSort(temp1) - Integer.valueOf(iteracion));
+                        getBackGround(2);break;
+                case "cocktailSort": tvIteration.setText(tvIteration.getText() + " " +
+                        (algoritmito.cocktelSort(temp1) - Integer.valueOf(iteracion)));
+                        algoritmito.setNumIteraciones(algoritmito.cocktelSort(temp1) - Integer.valueOf(iteracion));
+                        getBackGround(3);break;
+            }
+
+            switch (iteracion) {
+                case "1": algoritmito.setArr1(arreglo); break;
+                case "2": algoritmito.setArr2(arreglo); break;
+                case "3": algoritmito.setArr3(arreglo); break;
+                case "4": algoritmito.setArr4(arreglo); break;
+            }
+
+            Log.i("ARREGLOT", iteracion);
+            Log.i("ARREGLOT", String.valueOf(algoritmito.getArr1()));
+            Log.i("ARREGLOT", String.valueOf(algoritmito.getArr2()));
+            Log.i("ARREGLOT", String.valueOf(algoritmito.getArr3()));
+            Log.i("ARREGLOT", String.valueOf(algoritmito.getArr4()));
+
+            getIteration(Integer.valueOf(iteracion));
+        }
+    }
+
+    public void getIteration(Integer iteracion) {
+        switch (iteracion){
 
             case 0: tvBlueQuareText.setText(String.valueOf(arrInt[0]));
                 tvBlueQuareText2.setText(String.valueOf(arrInt[1]));
                 tvBlueQuareText3.setText(String.valueOf(arrInt[2]));
                 tvBlueQuareText4.setText(String.valueOf(arrInt[3]));
-                tvBlueQuareText5.setText(String.valueOf(arrInt[4])); ;break;
+                tvBlueQuareText5.setText(String.valueOf(arrInt[4])); break;
             case 1: actualizarArreglo(algoritmito.getArr1()); break;
             case 2: actualizarArreglo(algoritmito.getArr2()); break;
             case 3: actualizarArreglo(algoritmito.getArr3()); break;
             case 4: actualizarArreglo(algoritmito.getArr4()); break;
         }
+    }
 
-        switch (randomInt) {
+    public void getBackGround(Integer num) {
+        switch (num) {
 
             case 0:
                 setLayout("modifiedBubbleSort");
@@ -398,6 +495,39 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 break;
         }
     }
+
+    public void saveGame(View view) {
+        SharedPreferences preferencias =
+                getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+
+        String correo = preferencias.getString("email", "por_defecto@email.com");
+
+        User user;
+
+        user = User.find(User.class, "email = ?", correo).get(0);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
+        String currentDateandTime = sdf.format(new Date());
+
+        Partida partida = new Partida(1, algorithmType, (double) 1, ite1, tvBlueQuareText.getText() + "," + tvBlueQuareText2.getText() + ","
+                + tvBlueQuareText3.getText() + "," + tvBlueQuareText4.getText() + "," +
+                tvBlueQuareText5.getText(), user, currentDateandTime);
+
+        partida.save();
+
+        Long id = partida.getId();
+        partida = Partida.findById(
+                Partida.class, id);
+        Log.d("PARTIDA",
+                "Partida id: " + partida.getId().toString() +
+                        ", algoritmo: " + partida.getAlgoritmo() +
+                        ", numeros: " + partida.getNumeros() +
+                        ", iteracion: "  + partida.getIteracion() +
+                        ", usuario: " + partida.getUser().getEmail());
+
+        Toast.makeText(getApplicationContext(),"Juego guardado!", Toast.LENGTH_SHORT).show();
+    }
+
     View.OnDragListener dragListener = new View.OnDragListener() {
         @Override
         public boolean onDrag(View view, DragEvent dragEvent) {

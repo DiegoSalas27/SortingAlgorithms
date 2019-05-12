@@ -17,7 +17,7 @@ public class GuideMenu extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guide_menu);
-        btnOk = (Button) findViewById(R.id.btnOk);
+        btnOk = findViewById(R.id.btnOk);
         myMedia2 = MediaPlayer.create(GuideMenu.this, R.raw.button3);
     }
     @Override

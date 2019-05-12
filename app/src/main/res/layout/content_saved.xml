@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/contentPartida"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardElevation="6dp"
+    app:cardUseCompatPadding="false"
+    app:cardPreventCornerOverlap="true"
+
+    app:cardCornerRadius="10dp">
+
+    <RelativeLayout
+        android:background="@drawable/background_menu"
+        android:layout_width="match_parent"
+        android:layout_height="120dp">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/partida"
+            android:scaleType="centerCrop"/>
+        <TextView
+            android:id="@+id/partidaName"
+            android:layout_marginLeft="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_toRightOf="@+id/image"
+            android:layout_marginTop="@dimen/fab_margin"
+            android:layout_marginBottom="8dp"
+            android:textSize="20sp"
+            android:text="asdasdasd"/>
+
+        <TextView
+            android:id="@+id/partidaFecha"
+            android:layout_marginLeft="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/partidaName"
+            android:layout_toRightOf="@+id/image"
+            android:layout_marginBottom="16dp"
+            android:text="sadasdasd"/>
+
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

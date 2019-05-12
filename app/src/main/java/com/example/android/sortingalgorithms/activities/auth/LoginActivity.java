@@ -1,6 +1,8 @@
 package com.example.android.sortingalgorithms.activities.auth;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
@@ -34,10 +37,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        txtUserName = (EditText) findViewById(R.id.txtUserName);
-        txtPassword = (EditText) findViewById(R.id.txtPassword);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        loginBtn = (Button) findViewById(R.id.login);
+        txtUserName = findViewById(R.id.txtUserName);
+        txtPassword = findViewById(R.id.txtPassword);
+        progressBar = findViewById(R.id.progressBar);
+        loginBtn = findViewById(R.id.login);
 
     }
 
@@ -50,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void loginUser(){
-        String email = txtUserName.getText().toString();
+        final String email = txtUserName.getText().toString();
         String password = txtPassword.getText().toString();
 
         if(!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)){
@@ -74,6 +77,17 @@ public class LoginActivity extends AppCompatActivity {
                         public void onResponse(Response response) {
                             if (response.isSuccessful()) {
                                 Log.i("RESPONSE", response.message());
+
+                                //insertarmos el usuario acutal a las preferencias
+                                SharedPreferences preferencias =
+                                        getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+
+                                SharedPreferences.Editor editor = preferencias.edit();
+                                editor.putString("email", email);
+                                editor.commit();
+
+                                progressBar.setVisibility(View.GONE);
+                                loginBtn.setVisibility(View.VISIBLE);
                                 action();
                             }
                         }
@@ -81,6 +95,9 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onError(ANError anError) {
                             Log.d("ERROR", anError.getMessage());
+                            Toast.makeText(getApplicationContext(),"Email o contraseña incorrectos", Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.GONE);
+                            loginBtn.setVisibility(View.VISIBLE);
                         }
                     });
         }

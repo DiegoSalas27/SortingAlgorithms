@@ -1,6 +1,8 @@
 package com.example.android.sortingalgorithms.activities.auth;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
@@ -35,11 +38,11 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         //layout views
-        txtUserName = (EditText) findViewById(R.id.txtUserName);
-        txtEmail = (EditText) findViewById(R.id.txtEmail);
-        txtPassword = (EditText) findViewById(R.id.txtPassword);
-        registerBtn = (Button) findViewById(R.id.registerBtn);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        txtUserName = findViewById(R.id.txtUserName);
+        txtEmail = findViewById(R.id.txtEmail);
+        txtPassword = findViewById(R.id.txtPassword);
+        registerBtn = findViewById(R.id.registerBtn);
+        progressBar = findViewById(R.id.progressBar);
     }
 
     public void ventanaLogin(View view){
@@ -52,8 +55,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void createNewAccount(){
         String username = txtUserName.getText().toString();
-        String email = txtEmail.getText().toString();
-        String password = txtPassword.getText().toString();
+        final String email = txtEmail.getText().toString();
+        final String password = txtPassword.getText().toString();
 
         if(!TextUtils.isEmpty(username) && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)){
             progressBar.setVisibility(View.VISIBLE);
@@ -76,6 +79,18 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onResponse(Response response) {
                             if (response.isSuccessful()) {
                                 Log.i("RESPONSE", response.message());
+
+                                User user = new User(email, password);
+                                user.save();
+                                Long id = user.getId();
+                                user = User.findById(
+                                        User.class, id);
+                                Log.d("USUARIO",
+                                        "User id: " + user.getId().toString() +
+                                                ", email: " + user.getEmail() +
+                                                ", password: " + user.getPassword());
+                                progressBar.setVisibility(View.GONE);
+                                registerBtn.setVisibility(View.VISIBLE);
                                 action();
                             }
                         }
@@ -83,6 +98,9 @@ public class RegisterActivity extends AppCompatActivity {
                         @Override
                         public void onError(ANError anError) {
                             Log.d("ERROR", anError.getMessage());
+                            Toast.makeText(getApplicationContext(),"Email o contraseña incorrectos", Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.GONE);
+                            registerBtn.setVisibility(View.VISIBLE);
                         }
                     });
         }

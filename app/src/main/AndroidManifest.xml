@@ -1,24 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dist="http://schemas.android.com/apk/distribution"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.android.sortingalgorithms">
+
+    <dist:module dist:instant="true" />
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".SortingAlgorithmsApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.NoActionBar">
+        android:theme="@style/Theme.AppCompat.NoActionBar"
+        tools:replace="android:icon">
+        <activity
+            android:name=".activities.SavedActivity"
+            android:label="@string/title_activity_saved"
+            android:theme="@android:style/Theme.Dialog"></activity>
+
+        <meta-data
+            android:name="DATABASE"
+            android:value="sorting_algorithms.db" />
+        <meta-data
+            android:name="VERSION"
+            android:value="1" />
+        <meta-data
+            android:name="QUERY_LOG"
+            android:value="true" />
+        <meta-data
+            android:name="DOMAIN_PACKAGE_NAME"
+            android:value="com.example.android.sortingalgorithms.models" />
+
         <activity
             android:name=".activities.auth.RegisterActivity"
             android:label="@string/title_activity_register"
-            android:theme="@style/NoActionBar"/>
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".activities.MainActivity"
-            android:label="@string/title_activity_main"/>
+            android:label="@string/title_activity_main" />
         <activity
             android:name=".activities.auth.LoginActivity"
             android:theme="@style/NoActionBar">
