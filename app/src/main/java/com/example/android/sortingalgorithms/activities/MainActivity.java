@@ -403,6 +403,10 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
             @Override
             public void onFinish() {
+
+                popUpResult();
+                setContentView(R.layout.activity_main);
+                inicializarDatos();
                 startButton.setVisibility(View.VISIBLE);
                 btnGuide.setVisibility(View.VISIBLE);
                 btnSavedGames.setVisibility(View.VISIBLE);
@@ -410,38 +414,40 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 imgBackgroundMain.setVisibility(View.VISIBLE);
                 gameRelativeLayout.setVisibility(View.INVISIBLE);
                 imgBackground.setVisibility(View.INVISIBLE);
-
-                Bundle bundle = new Bundle();
-                bundle.putString("nivel", String.valueOf(nivel));
-                bundle.putString("puntaje", String.valueOf(correct));
-                bundle.putString("timeLeftInMilliseconds", String.valueOf(timeLeftInMilliseconds));
-                Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
-                intent.putExtras(bundle);
                 restartValues();
-                setContentView(R.layout.activity_main);
-                startActivity(intent);
+                countDownTimer.cancel();
+                return;
             }
         }.start();
-
         timeRunning = true;
     }
 
+    public void popUpResult() {
+        Bundle bundle = new Bundle();
+        bundle.putString("nivel", String.valueOf(nivel));
+        bundle.putString("puntaje", String.valueOf(correct));
+        bundle.putString("timeLeftInMilliseconds", String.valueOf(timeLeftInMilliseconds));
+        Intent intent = new Intent(this, ResultActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
     public void restartValues() {
+        algoritmito.setNumIteraciones(0);
+        arrInt = new int[5];
+        arrInt = new int[5];
+        result = false;
         sortAlgorithm = "";
         copyB = "";
         correct = 0;
-        copyB = "";
         nivel = 1;
-        result = false;
         once = false;
         salir = false;
         ite1 = 0;
+        Datos.setPasa(false);
         algorithmType = "";
         timeLeftInMilliseconds = 120000;
         timeRunning = false;
-
-        arrInt = new int[5];
-        yourArray = new int[5];
         i = 0;
         randomInt = 0;
     }
