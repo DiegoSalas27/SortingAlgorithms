@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     public void onBackPressed() {
         if (salir) {
             super.onBackPressed();
+            finish();
         } else {
             salir = true;
             Toast.makeText(getApplicationContext(),"Volver a presionar el botón back cerrará la aplicación", Toast.LENGTH_LONG).show();
@@ -403,7 +404,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
             @Override
             public void onFinish() {
-
+                Toast.makeText(getApplicationContext(),"Done! " + nivel, Toast.LENGTH_SHORT).show();
                 popUpResult();
                 setContentView(R.layout.activity_main);
                 inicializarDatos();
@@ -416,7 +417,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 imgBackground.setVisibility(View.INVISIBLE);
                 restartValues();
                 countDownTimer.cancel();
-                return;
+
             }
         }.start();
         timeRunning = true;
@@ -562,7 +563,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                                         tvIteration.setText("number of iterations left:");
                                         tvIteration.setText(tvIteration.getText() + " " + String.valueOf(algoritmito.getNumIteraciones()));
                                         tvCorrect.setText(String.valueOf(correct));
-                                        startTimer();
+                                        //startTimer();
 
                                     }
                                 }). start();

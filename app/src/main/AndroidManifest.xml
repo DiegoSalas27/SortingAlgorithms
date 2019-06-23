@@ -35,9 +35,6 @@
         <meta-data
             android:name="QUERY_LOG"
             android:value="true" />
-        <meta-data
-            android:name="DOMAIN_PACKAGE_NAME"
-            android:value="com.example.android.sortingalgorithms.models" />
 
         <activity
             android:name=".activities.auth.RegisterActivity"

@@ -13,8 +13,8 @@ public class Resultado extends SugarRecord {
         this.puntaje = puntaje;
         this.nivel = nivel;
         this.tiempo = tiempo;
-        this.fecha = fecha;
         this.user = user;
+        this.fecha = fecha;
     }
 
     public Integer getPuntaje() {

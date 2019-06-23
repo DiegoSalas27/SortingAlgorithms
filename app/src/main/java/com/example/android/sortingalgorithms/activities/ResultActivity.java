@@ -28,7 +28,7 @@ public class ResultActivity extends Activity {
     TextView tvPuntaje, tvNivelesAl, tvTiempoLo, tvRecomendacion, tvPuntajeMejor;
     ImageView imgCrowd;
     User user;
-    Resultado max = new Resultado(0, 0, "", user, "");
+    int max;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,13 +67,12 @@ public class ResultActivity extends Activity {
 
         user = User.find(User.class, "email = ?", correo).get(0);
 
-        resultados = (ArrayList<Resultado>) user.getResultados();
+        String puntaje = preferencias.getString("MejorPuntaje", "0");
 
-        if(resultados.size() > 0) {
-            for (Resultado resultado : resultados) {
-                if (max.getPuntaje() < resultado.getPuntaje())
-                    max = resultado;
-            }
+        if (puntaje == "0") {
+            max = 0;
+        } else {
+            max = Integer.valueOf(puntaje);
         }
     }
 
@@ -95,16 +94,19 @@ public class ResultActivity extends Activity {
         timeleftText += seconds;
 
        // tvTiempoLo.setText(timeleftText);
-        tvPuntajeMejor.setText(String.valueOf(max.getPuntaje()));
+        tvPuntajeMejor.setText(String.valueOf(max));
         tvTiempoLo.setText("2:00");
         tvPuntaje.setText(puntaje);
         tvNivelesAl.setText(nivel);
 
         if (Integer.valueOf(puntaje) > 30) {
             if (Integer.valueOf(tvPuntaje.getText().toString()) > Integer.valueOf(tvPuntajeMejor.getText().toString())
-            && max.getNivel() != 0) {
+            && max != 0) {
                 tvRecomendacion.setText("Has logadro en: " + "2:00" + " un puntaje de: " + tvPuntaje.getText() +
                         " Es un excelente resultado. Has superado tu record!");
+            } else if (max == 0){
+                tvRecomendacion.setText("Has logadro en: " + "2:00" + " un puntaje de: " + tvPuntaje.getText() +
+                        " Es un excelente resultado.");
             } else {
                 tvRecomendacion.setText("Has logadro en: " + "2:00" + " un puntaje de: " + tvPuntaje.getText() +
                         " Es un excelente resultado. Estás por debajo de tu record!");
@@ -114,12 +116,15 @@ public class ResultActivity extends Activity {
             mediaCrowd.start();
         } else {
             if (Integer.valueOf(tvPuntaje.getText().toString()) > Integer.valueOf(tvPuntajeMejor.getText().toString())
-            && max.getNivel() != 0) {
+            && max != 0) {
                 tvRecomendacion.setText("Has logadro en: " + "2:00" + " un puntaje de: " + tvPuntaje.getText() +
                         " Es un resultado por debajo del promedio pero por sobre tu record. ");
+            } else if (max == 0){
+                tvRecomendacion.setText("Has logadro en: " + "2:00" + " un puntaje de: " + tvPuntaje.getText() +
+                        " Es un resultado por debajo del promedio.");
             } else {
                 tvRecomendacion.setText("Has logadro en: " + "2:00" + " un puntaje de: " + tvPuntaje.getText() +
-                        " Es un resultado por debajo del promedio. Estás por debajo de tu record");
+                        " Es un resultado por debajo del promedio. Estás igual o por debajo de tu record");
             }
             mediaCrowd = MediaPlayer.create(ResultActivity.this, R.raw.finaboo);
             imgCrowd.setImageResource(R.drawable.boocrowd);
@@ -134,6 +139,15 @@ public class ResultActivity extends Activity {
         finish();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        myMedia.start();
+        mediaCrowd.stop();
+        mediaCrowd.release();
+        finish();
+    }
+
     public void saveResult(View view) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
         String currentDateandTime = sdf.format(new Date());
@@ -141,14 +155,18 @@ public class ResultActivity extends Activity {
         Resultado resultado = new Resultado(Integer.valueOf(tvPuntaje.getText().toString()),
                 Integer.valueOf(tvNivelesAl.getText().toString()), tvTiempoLo.getText().toString(), user, currentDateandTime);
 
-        resultado.save();
+        Log.d("RESULTADO", resultado.getPuntaje().toString());
 
-        Long id = resultado.getId();
-        resultado = Resultado.findById(
-                Resultado.class, id);
-        Log.d("Resultado",
-                "Resultado id: " + resultado.getId().toString() +
-                        ", email: " + resultado.getPuntaje());
+        SharedPreferences preferencias =
+                getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+
+        String puntaje = preferencias.getString("MejorPuntaje", "0");
+
+        if (Integer.valueOf(puntaje) < resultado.getPuntaje()) {
+            SharedPreferences.Editor editor = preferencias.edit();
+            editor.putString("MejorPuntaje", resultado.getPuntaje().toString());
+            editor.commit();
+        }
 
         Toast.makeText(getApplicationContext(),"Resultado guardado!", Toast.LENGTH_SHORT).show();
     }
