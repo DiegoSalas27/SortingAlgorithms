@@ -404,7 +404,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
             @Override
             public void onFinish() {
-                Toast.makeText(getApplicationContext(),"Done! " + nivel, Toast.LENGTH_SHORT).show();
                 popUpResult();
                 setContentView(R.layout.activity_main);
                 inicializarDatos();
